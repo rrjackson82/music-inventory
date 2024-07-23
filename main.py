@@ -1,7 +1,7 @@
 import json
 
 class Album:
-    def __innit__(self, title, genre, release_year, band, stock, medium, rating):
+    def __innit__(self, title, genre, release_year, band, stock, rating):
         self.title = title
         self.genre = genre
         self.release_year = release_year
@@ -68,7 +68,54 @@ def view_music():
         year = music['release year']
         print(f"{title} | {band} | {year} | {rating_to_stars(music['rating'])}"
               f" ({music['rating']}/5) | genre: {genre}")
-        print(f"\tcd: x{cd_stock}\n\tvinyl: {vinyl_stock}\n\tcassette tape: {tape_stock}")
+        print(f"\tcd x{cd_stock}\n\tvinyl x{vinyl_stock}\n\tcassette tape x{tape_stock}")
+
+
+def write_json(n=0, new_data=None):
+    if not isinstance(n, int):
+        print('error: needed a number')
+    #  n = 0 for basic writing of data, n = 1 if you want to append a music object to the data
+    if n == 1:
+        data = read_json()
+        data.append(new_data.to_dict())
+        with open("database.json", "w") as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+    else:
+        with open("database.json", "w") as f:
+            json.dump(new_data, f, ensure_ascii=False, indent=4)
+
+
+# used to update existing albums in the database
+def update_music(title):
+    if not isinstance(title, str):
+        print('error')
+        return
+    change_what = input("What would you like to update? title, band, stock, genre, release, or rating? ").lower()
+    data = read_json()
+    for music in data:
+        if music['title'].lower() == title.lower():
+            to_what = input(f"What would you like to change the {change_what} to? ")
+            if change_what == 'stock':
+                medium = input("Change in # of cds, vinyls, or tapes? ").lower()[0]
+                stock_type = {'c': 'cd', 'v': 'vinyl', 't': 'tape'}
+                if medium in stock_type:
+                    music['stock'][stock_type[medium]] = int(to_what)
+            elif change_what in {'release', 'release year'}:
+                music['release year'] = int(to_what)
+            elif change_what == 'rating':
+                music['rating'] = int(to_what)
+            else:
+                try:
+                    music[change_what] = to_what
+                except KeyError:
+                    print(f"{change_what} does not exist.")
+            write_json(0, data)
+    # add a tracks param
+
 
 
 view_music()
+
+update_music(input('title '))
+
+# view_music()
