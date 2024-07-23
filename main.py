@@ -69,6 +69,11 @@ def view_music():
         print(f"{title} | {band} | {year} | {rating_to_stars(music['rating'])}"
               f" ({music['rating']}/5) | genre: {genre}")
         print(f"\tcd x{cd_stock}\n\tvinyl x{vinyl_stock}\n\tcassette tape x{tape_stock}")
+        track_counter = 1
+        print("\t\tTracks")
+        for track in music['tracks']:
+            print(f"\t\t{track_counter}. {track}")
+            track_counter+=1
 
 
 def write_json(n=0, new_data=None):
@@ -116,4 +121,4 @@ def update_music(title):
 
 view_music()
 
-update_music(input('title '))
+# update_music(input('title '))
