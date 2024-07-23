@@ -9,7 +9,18 @@
             "cd": 1,
             "vinyl": 1,
             "tape": 0
-        }
+        },
+        "tracks": [
+            "I Don't Know",
+            "Crazy Train",
+            "Goodbye to Romance",
+            "Dee",
+            "Suicide Solution",
+            "Mr. Crowley",
+            "No Bone Movies",
+            "Revelation(Mother Earth)",
+            "Steal Away (The Night)"
+        ]
     },
     {
         "title": "Diary of a Madman",
@@ -21,6 +32,16 @@
             "cd": 0,
             "vinyl": 1,
             "tape": 1
-        }
+        },
+        "tracks":[
+            "Over the Mountain",
+            "Flying High Again",
+            "You Can't Kill Rock and Roll",
+            "Believer",
+            "Little Dolls",
+            "Tonight",
+            "S.A.T.O",
+            "Diary of a Madman"
+        ]
     }
 ]
