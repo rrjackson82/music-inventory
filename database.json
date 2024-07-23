@@ -3,9 +3,24 @@
       "title": "Blizzard of Ozz",
       "band": "Ozzy Osbourne",
       "genre": "hard rock",
-      "medium": "vinyl",
       "release year": "1980",
-      "rating": "5",
-      "stock": "1"
+      "rating": 5,
+      "stock": {
+        "cd": 1,
+        "vinyl": 1,
+        "tape": 0
+      }
+  },
+    {
+      "title": "Diary of a Madman",
+      "band": "Ozzy Osbourne",
+      "genre": "hard rock",
+      "release year": "1981",
+      "rating": 5,
+      "stock": {
+        "cd": 0,
+        "vinyl": 1,
+        "tape": 1
+      }
   }
 ]

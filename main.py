@@ -7,7 +7,6 @@ class Album:
         self.release_year = release_year
         self.band = band
         self.stock = stock
-        self.medium = medium
         self.rating = rating
 
     def to_dict(self):
@@ -15,7 +14,6 @@ class Album:
             'title': self.title,
             'band': self.band,
             'genre': self.genre,
-            'medium': self.medium,
             'release year': self.release_year,
             'rating': self.rating,
             'stock': self.stock
@@ -38,7 +36,7 @@ def read_json():
         return []
 
 
-# probable an easier way to do this but it gets the job done
+# probably an easier way to do this but it gets the job done
 def rating_to_stars(rating=0):
     if 5 >= rating >= 0:
         match rating:
@@ -56,16 +54,21 @@ def rating_to_stars(rating=0):
                 return "*****"
 
 # print out all your music to the console
-# might show the title of it and put the stock of every medium underneath it
-# blizzard of ozz genre hard rock band ozzy:
-#    cd x1
-#    vinyl x1
 def view_music():
     data = read_json()
-    print("music: \n")
-    for music in data:
-        print(f"title: {music['title']}   |   band: {music['band']}   |   medium: {music['medium']}"
-              f"   |   release year: {music['release year']}   |   genre: {music['genre']}   |   rating: "
-              f"{rating_to_stars(int(music['rating']))}   |   stock: x{music['stock']}")
 
-print(view_music())
+    print('stored music: \n')
+    for music in data:
+        title = music['title']
+        band = music['band']
+        genre = music['genre']
+        cd_stock = music['stock']['cd']
+        vinyl_stock = music['stock']['vinyl']
+        tape_stock = music['stock']['tape']
+        year = music['release year']
+        print(f"{title} | {band} | {year} | {rating_to_stars(music['rating'])}"
+              f" ({music['rating']}/5) | genre: {genre}")
+        print(f"\tcd: x{cd_stock}\n\tvinyl: {vinyl_stock}\n\tcassette tape: {tape_stock}")
+
+
+view_music()
