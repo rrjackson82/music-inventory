@@ -37,7 +37,7 @@ def find_song(album_title):
                 "tracks": song['tracks']
 
             }
-    return jsonify(album_data), 200
+    return jsonify(album_data[album_title]), 200
 
 
 @app.route("/all-songs")
