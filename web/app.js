@@ -2,8 +2,39 @@ let baseUrl = "http://127.0.0.1:5000";
 const placeholder = document.querySelector("#placeholder");
 const albumSearchText = document.querySelector("#album_search")
 let searchButton = document.querySelector("#searchButton")
+starList = document.querySelector("#album_star_input")
+let star1 = document.querySelector("#star-1");
+let star2 = document.querySelector("#star-2");
+let star3 = document.querySelector("#star-3");
+let star4 = document.querySelector("#star-4");
+let star5 = document.querySelector("#star-5");
+
+star2.addEventListener("mouseover", () => {
+    star2.style = "color: yellow;"
+    star1.style = "color: yellow;"
+})
+// let starInput = document.querySelector("#album_star_input")
+// let starGraphic = document.querySelector("#star_graphic")
+
+// starInput.addEventListener("input", () => {
+//     let stars = 5
+//     starGraphic.innerHTML = ''
+//     for (i = 1; i <= starInput.value; i++) {
+//         let starFill = document.createElement('i');
+//         starFill.className = "bi-star-fill";
+//         starGraphic.appendChild(starFill)
+//     }
+//     stars -= starInput.value
+//     for (i = 1; i <= stars; i++) {
+//         let starEmpty = document.createElement('i')
+//         starEmpty.className = "bi-star";
+//         starGraphic.appendChild(starEmpty)
+//     }
+// })
+
 
 placeholder.style.color = "gray"
+
 
 function changeAlbumPlaceholder(text = "", color = "white", data = null) {
     if (data != null) {

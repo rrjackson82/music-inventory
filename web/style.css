@@ -6,3 +6,50 @@
     height: 175px;
     overflow-y: auto;
 }
+
+input {
+    border: 1px solid gray !important;
+    background: none !important;
+    color: white !important;
+}
+
+input::placeholder {
+    color: darkgray !important;
+}
+
+.bi-star-fill, .bi-star {
+    font-size: 75%;
+    /*padding-right: 3%;*/
+    /*padding-left: 3%;*/
+    color: white;
+    /*text-align: center;*/
+
+
+}
+
+li button {
+    /*padding: 0 !important;*/
+    /*margin: 0 !important;*/
+}
+
+.h-list {
+    display: flex !important;
+}
+
+.h-list li {
+    flex: 1 !important;
+    text-align: center !important;
+}
+
+.star {
+    padding: 0;
+}
+
+.star .btn {
+    padding: 3px;
+}
+
+#album_star_input {
+    padding: 5px;
+
+}

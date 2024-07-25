@@ -62,24 +62,5 @@ def create_music():
     return jsonify(songs[len(songs) - 1]), 201
 
 
-# @app.route("/get-user/<int:user_id>")
-# def get_user(user_id):
-#     user_data = songs.get(user_id)
-#     return jsonify(user_data), 200
-#
-#
-# @app.route("/create-user", methods=["POST"])
-# def create_user():
-#     data = request.get_json()
-#     user_id = data['user-id']
-#     songs[user_id] = {
-#         "name": data['name'],
-#         "age": data['age'],
-#         "id": data['user-id']
-#     }
-#     print(songs)
-#     return jsonify(songs[user_id]), 201
-
-
 if __name__ == "__main__":
     app.run(debug=True)
