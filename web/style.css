@@ -21,7 +21,7 @@ input::placeholder {
     font-size: 75%;
     /*padding-right: 3%;*/
     /*padding-left: 3%;*/
-    color: white;
+    color: #808080;
     /*text-align: center;*/
 
 
@@ -41,15 +41,20 @@ li button {
     text-align: center !important;
 }
 
-.star {
-    padding: 0;
-}
-
 .star .btn {
     padding: 3px;
 }
 
 #album_star_input {
-    padding: 5px;
+    padding: 4px 0 7px;
 
+}
+
+.star {
+    padding: 0;
+    color: gray;
+}
+
+.star:hover {
+    cursor: pointer;
 }
