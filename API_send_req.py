@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import json
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 # # custom main.py
 # import main
@@ -10,7 +10,8 @@ CORS(app)
 
 
 @app.route("/")
-def dude():
+# @cross_origin(supports_credentials=True)
+def login():
     return "Home"
 
 
@@ -50,20 +51,34 @@ def show_songs():
 
 @app.route("/add-music", methods=["POST"])
 def create_music():
-    data = request.get_json()
-    song_title = data['title']
-    songs.append({})
-    songs[len(songs) - 1] = {
-        'title': data['title'],
-        'band': data['band'],
-        'genre': data['genre'],
-        'release year': int(data['release year']),
-        'rating': int(data['rating']),
-        'stock': data['stock'],
-        "tracks": data['tracks']
-    }
-    return jsonify(songs[len(songs) - 1]), 201
-
+    try:
+        data = request.get_json()
+        if not data:
+            raise ValueError("No JSON data received")
+        data = request.get_json()
+        # songs.append(
+        #     {
+        #     'title': data['title'],
+        #     'band': data['band'],
+        #     'genre': data['genre'],
+        #     'release year': data['release year'],
+        #     'rating': data['rating'],
+        #     'stock': data['stock'],
+        #     "tracks": data['tracks']
+        #     }
+        # )
+        songs[len(songs) - 1] = {
+            'title': data['title'],
+            'band': data['band'],
+            'genre': data['genre'],
+            'release year': int(data['release year']),
+            'rating': int(data['rating']),
+            'stock': data['stock'],
+            "tracks": data['tracks']
+        }
+        return jsonify(songs[len(songs) - 1]), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=1982)

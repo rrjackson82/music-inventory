@@ -1,4 +1,4 @@
-let baseUrl = "http://127.0.0.1:5000";
+let baseUrl = "http://127.0.0.1:1982";
 const placeholder = document.querySelector("#placeholder");
 const albumSearchText = document.querySelector("#album_search");
 let searchButton = document.querySelector("#searchButton");
@@ -9,6 +9,68 @@ let star2 = document.querySelector("#star-2");
 let star3 = document.querySelector("#star-3");
 let star4 = document.querySelector("#star-4");
 let star5 = document.querySelector("#star-5");
+let stars = [star1, star2, star3, star4, star5];
+let starRating = 0;
+const starActiveColor = "#eddc00";
+const starInactiveColor = "#ececec"
+
+const warningColor = "#d74949"
+
+const newAlbumTitle = document.querySelector("#album_title_input");
+const newAlbumYOR = document.querySelector("#album_band_YOR");
+const newAlbumBand = document.querySelector("#album_band_input");
+let newAlbumTracks = [];
+const newAlbumGenre = document.querySelector("#album_genre_input");
+
+const saveAlbumBtn = document.querySelector("#save_album_btn");
+
+// add album
+function addAlbum(title = "", band = "", release = 0, rating = 0, genre = "", tracks = []) {
+    if (title == "" || band == "" || release == null || release == 0, rating == null || genre == "" || tracks.length == 0) {
+        alert("please make sure all values are filled");
+    } else {
+        console.log(title, band, release, rating, genre, tracks)
+        fetch(`http://127.0.0.1:1982/add-music`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "title": title,
+                "band": band,
+                "release year": release,
+                "rating": rating,
+                "genre": genre,
+                "tracks": tracks,
+                "stock": 0
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Success:", data);
+            })
+            .catch(error => {
+                console.log("ERROR:", error);
+            })
+
+    }
+}
+
+saveAlbumBtn.addEventListener('click', () => {
+    let trackChildren = trackContainer.children;
+    for (let i = 0; i < trackChildren.length; i++) {
+        if (i >= 1) {
+            child = trackChildren[i]
+            input = child.querySelector('input');
+            console.log("Value: ", input.value)
+            newAlbumTracks.push(input.value);
+        }
+        console.log(i)
+    }
+    console.log(newAlbumTracks)
+    addAlbum(newAlbumTitle.value, newAlbumBand.value, newAlbumYOR.value, starRating, newAlbumGenre.value, newAlbumTracks)
+});
+
 
 const trackContainer = document.querySelector("#track_container")
 let trackCount = 0;
@@ -25,6 +87,7 @@ function createTrackInput(index) {
         `;
     inputGroup.querySelectorAll('button').forEach((btn) => {
         btn.classList.add("display-inline-blk")
+        let inp = inputGroup.querySelector('input')
     })
     addTrackBtn.blur();
     inputGroup.querySelector('input').addEventListener("keypress", (e) => {
@@ -81,18 +144,11 @@ function updateTrackNumbers() {
 }
 
 // handle stars
-let stars = [star1, star2, star3, star4, star5];
-let starRating = 0;
-const starActiveColor = "#eddc00";
-const starInactiveColor = "#ececec"
-
-const warningColor = "#d74949"
 
 stars.forEach(star => {
     star.addEventListener("click", () => {
         let i = stars.indexOf(star);
         starRating = i + 1;
-        console.log(starRating);
         for (j = 0; j < stars.length; j++) {
             if (j <= i) {
                 stars[j].style.color = starActiveColor;
@@ -149,7 +205,7 @@ let allSongs = {};
 
 async function searchAlbum(searchParams = "") {
     try {
-        const response = await fetch(`http://127.0.0.1:5000/find-album/${searchParams}`);
+        const response = await fetch(`http://127.0.0.1:1982/find-album/${searchParams}`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -163,7 +219,7 @@ async function searchAlbum(searchParams = "") {
 
 async function fetchData() {
     try {
-        const response = await fetch('http://127.0.0.1:5000/all-songs');
+        const response = await fetch('http://127.0.0.1:1982/all-songs');
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
