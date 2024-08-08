@@ -1,9 +1,13 @@
+:root {
+    --med-gray: #808080;
+}
+
 .card {
     height: 225px;
 }
 
 .card-text-container {
-    height: 175px;
+    height: 209px;
     overflow-y: auto;
 }
 
@@ -14,14 +18,14 @@ input {
 }
 
 input::placeholder {
-    color: darkgray !important;
+    color: var(--med-gray) !important;
 }
 
 .bi-star-fill, .bi-star {
     font-size: 75%;
     /*padding-right: 3%;*/
     /*padding-left: 3%;*/
-    color: #808080;
+    color: var(--med-gray);
     /*text-align: center;*/
 
 
@@ -57,4 +61,36 @@ li button {
 
 .star:hover {
     cursor: pointer;
+}
+
+.input-group-text {
+    border-color: var(--med-gray);
+    color: #dcdcdc;
+}
+
+input:focus, input.form-control:focus {
+    /*removing that awful blue border*/
+    outline: none;
+    box-shadow: none;
+}
+
+.input-group {
+    /*padding-bottom: 16px;*/
+}
+
+.move-up-btn, .move-down-btn {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.display-inline-blk {
+    display: inline-block;
+}
+
+#track_container {
+    height: 175px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+    margin-bottom: 0;
 }

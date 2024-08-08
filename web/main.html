@@ -21,7 +21,7 @@
                                    id="album_search">
                         </div>
                         <div class="col-4 gx-4">
-                            <button id="searchButton" class="btn btn-outline-primary h-auto container-fluid">search
+                            <button id="searchButton" class="btn btn-outline-primary h-auto container-fluid">Search
                             </button>
                         </div>
                     </div>
@@ -76,15 +76,37 @@
                         </div>
                     </div>
                     <div class="row pt-3">
-                        <label for="album_genre_input" class="col-sm-2 col-form-label">Genre</label>
+                        <label for="album_genre_input" class="col-sm-2 col-form-label display-inline-blk">Genre</label>
                         <div class="col-4">
-                            <input type="text" list="genres" id="album_genre_input" class="form-control"
+                            <input type="text" list="genres" id="album_genre_input"
+                                   class="form-control display-inline-blk"
                                    placeholder="Genre">
                             <datalist id="genres">
                                 <option value="hard rock"></option>
                                 <option value="metal"></option>
                                 <option value="pop"></option>
                             </datalist>
+                        </div>
+                        <label class="col-sm-2 col-form-label display-inline-blk">Tracks</label>
+                        <div class="col-4">
+                            <span id="track_container" class="overflow-auto">
+                                <button class="btn btn-outline-primary form-control mb-3" id="add_track_btn">Add Track
+                                </button>
+                            </span>
+                        </div>
+                        <div class="btn-container">
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-primary form-control" id="save_album_btn">Save Album
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-danger form-control" id="clear_album_input">Clear
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

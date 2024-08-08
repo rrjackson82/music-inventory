@@ -10,6 +10,77 @@ let star3 = document.querySelector("#star-3");
 let star4 = document.querySelector("#star-4");
 let star5 = document.querySelector("#star-5");
 
+const trackContainer = document.querySelector("#track_container")
+let trackCount = 0;
+const addTrackBtn = document.querySelector("#add_track_btn")
+
+function createTrackInput(index) {
+    const inputGroup = document.createElement('span');
+    inputGroup.className = "input-group mb-2";
+    inputGroup.innerHTML = `
+            <span class="input-group-text bg-dark text-white">${index}</span>
+            <input type="text" class="form-control" placeholder="Track Title">
+            <button type="button" class="btn btn-outline-secondary move-up-btn">↑</button>
+            <button type="button" class="btn btn-outline-secondary move-down-btn">↓</button>
+        `;
+    inputGroup.querySelectorAll('button').forEach((btn) => {
+        btn.classList.add("display-inline-blk")
+    })
+    addTrackBtn.blur();
+    inputGroup.querySelector('input').addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            trackCount++;
+            const newTrackInput = createTrackInput(trackCount);
+            trackContainer.appendChild(newTrackInput);
+        }
+    })
+    return inputGroup;
+}
+
+
+addTrackBtn.addEventListener("click", () => {
+    trackCount++;
+    const newTrackInput = createTrackInput(trackCount);
+    trackContainer.appendChild(newTrackInput);
+});
+
+trackContainer.addEventListener("click", (e) => {
+    if (e.target.classList.contains('move-up-btn')) {
+        moveTrackUp(e.target.closest('.input-group'));
+    } else if (e.target.classList.contains('move-down-btn')) {
+        moveTrackDown(e.target.closest('.input-group'));
+    }
+});
+
+function moveTrackUp(track) {
+    const prevTrack = track.previousElementSibling;
+    if (prevTrack) {
+        if (!prevTrack.classList.contains('btn')) {
+            trackContainer.insertBefore(track, prevTrack);
+            updateTrackNumbers();
+        }
+    }
+}
+
+function moveTrackDown(track) {
+    const nextTrack = track.nextElementSibling;
+    if (nextTrack) {
+        trackContainer.insertBefore(nextTrack, track);
+        updateTrackNumbers();
+    }
+}
+
+function updateTrackNumbers() {
+    Array.from(trackContainer.children).forEach((track, index) => {
+        const trackFirstChild = track.children[0];
+        console.log(trackFirstChild);
+        if (trackFirstChild) {
+            trackFirstChild.textContent = index;
+        }
+    });
+}
+
+// handle stars
 let stars = [star1, star2, star3, star4, star5];
 let starRating = 0;
 const starActiveColor = "#eddc00";
@@ -73,7 +144,7 @@ albumSearchText.addEventListener("keypress", function (event) {
     }
 })
 
-let allSongs = {}
+let allSongs = {};
 
 
 async function searchAlbum(searchParams = "") {
@@ -110,4 +181,4 @@ fetchData().then(data => {
         allSongs = data;
         // console.log("songs: " + songs)
     }
-})
+});
