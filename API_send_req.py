@@ -10,7 +10,6 @@ CORS(app)
 
 
 @app.route("/")
-# @cross_origin(supports_credentials=True)
 def login():
     return "Home"
 
@@ -23,7 +22,6 @@ with open('database.json', 'r') as f:
         print("file not found")
     except json.JSONDecodeError:
         print("decode error - file might be corrupt or empty")
-print(songs)
 
 
 @app.route("/find-album/<album_title>")
@@ -39,7 +37,6 @@ def find_song(album_title):
                 'rating': int(song['rating']),
                 'stock': song['stock'],
                 "tracks": song['tracks']
-
             }
     return jsonify(album_data[album_title]), 200
 
@@ -51,31 +48,32 @@ def show_songs():
 
 @app.route("/add-music", methods=["POST"])
 def create_music():
+    connections = 0
     try:
         data = request.get_json()
         if not data:
             raise ValueError("No JSON data received")
         data = request.get_json()
-        # songs.append(
-        #     {
-        #     'title': data['title'],
-        #     'band': data['band'],
-        #     'genre': data['genre'],
-        #     'release year': data['release year'],
-        #     'rating': data['rating'],
-        #     'stock': data['stock'],
-        #     "tracks": data['tracks']
-        #     }
-        # )
-        songs[len(songs) - 1] = {
-            'title': data['title'],
-            'band': data['band'],
-            'genre': data['genre'],
-            'release year': int(data['release year']),
-            'rating': int(data['rating']),
-            'stock': data['stock'],
-            "tracks": data['tracks']
-        }
+        print(data)
+        for song in songs:
+            if str(data['title']).lower() == str(song['title']).lower():
+                print("duplicate")
+                return jsonify({"error":"songAlreadyExists"})
+        else:
+            songs[len(songs) - 1] = {
+                'title': data['title'],
+                'band': data['band'],
+                'genre': data['genre'],
+                'release year': int(data['release year']),
+                'rating': int(data['rating']),
+                'stock': data['stock'],
+                "tracks": data['tracks']
+            }
+        # for song in songs:
+        #     print(str(song['title']).lower(), ":", str(data['title']).lower())
+        #     if str(song['title']).lower() == str(data['title']).lower():
+        #         connections += 1
+        #         return jsonify({"error": "songAlreadyExists"})
         return jsonify(songs[len(songs) - 1]), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400

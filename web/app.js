@@ -31,8 +31,8 @@ const saveAlbumBtn = document.querySelector("#save_album_btn");
 function addAlbum(title = "", band = "", release = 0, rating = 0, genre = "", tracks = [], stock = [0, 0, 0]) {
     if (title == "" || band == "" || release == null || release == 0, rating == null || genre == "" || tracks.length == 0) {
         alert("please make sure all values are filled");
+        return 0;
     } else {
-        console.log(title, band, release, rating, genre, tracks, stock)
         fetch(`http://127.0.0.1:1982/add-music`, {
             method: "POST",
             headers: {
@@ -45,18 +45,42 @@ function addAlbum(title = "", band = "", release = 0, rating = 0, genre = "", tr
                 "rating": rating,
                 "genre": genre,
                 "tracks": tracks,
-                "stock": stock
+                "stock": { "cd": stock[0], "vinyl": stock[1], "tape": stock[2] }
             })
         })
             .then(response => response.json())
             .then(data => {
-                console.log("Success:", data);
+                if (data.error === "songAlreadyExists") {
+                    console.log('dup');
+                    alert("An album by the same name has already been added.");
+                } else {
+                    return 1;
+                }
             })
             .catch(error => {
-                console.log("ERROR:", error);
+                console.log(error);
+                return 0;
             })
 
     }
+}
+
+// clear the new album card
+function newAlbumClear() {
+    newAlbumTitle.value = "";
+    newAlbumBand.value = "";
+    newAlbumYOR.value = "";
+    for (i = 0; i < stars.length; i++) {
+        stars[i].style.color = starInactiveColor;
+    };
+    starRating = 0;
+    newAlbumGenre.value = "";
+    trackContainer.innerHTML = `<button class="btn btn-outline-primary form-control mb-3" id="add_track_btn">Add
+                                        Track
+                                    </button>`
+    newAlbumVinyls.value = "";
+    newAlbumCDs.value = "";
+    newAlbumTapes.value = "";
 }
 
 saveAlbumBtn.addEventListener('click', () => {
@@ -65,13 +89,15 @@ saveAlbumBtn.addEventListener('click', () => {
         if (i >= 1) {
             child = trackChildren[i]
             input = child.querySelector('input');
-            console.log("Value: ", input.value)
             newAlbumTracks.push(input.value);
         }
-        console.log(i)
     }
-    console.log(newAlbumTracks)
-    addAlbum(newAlbumTitle.value, newAlbumBand.value, newAlbumYOR.value, starRating, newAlbumGenre.value, newAlbumTracks, [newAlbumVinyls.value, newAlbumCDs.value, newAlbumTapes.value])
+    addFunc = addAlbum(newAlbumTitle.value, newAlbumBand.value, newAlbumYOR.value, starRating, newAlbumGenre.value, newAlbumTracks, [newAlbumVinyls.value, newAlbumCDs.value, newAlbumTapes.value]);
+    if (addFunc === 0) {
+        newAlbumClear();
+    } else {
+        console.log("an error has occured")
+    }
 });
 
 
@@ -211,7 +237,7 @@ async function searchAlbum(searchParams = "") {
         const response = await fetch(`http://127.0.0.1:1982/find-album/${searchParams}`);
 
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`http err status:: ${response.status}`);
         }
         const data = await response.json();
         return data;
