@@ -16,6 +16,9 @@ const starInactiveColor = "#ececec"
 
 const warningColor = "#d74949"
 
+const newAlbumVinyls = document.querySelector("#vinyl_ammount");
+const newAlbumCDs = document.querySelector("#cd_ammount");
+const newAlbumTapes = document.querySelector("#tape_ammount")
 const newAlbumTitle = document.querySelector("#album_title_input");
 const newAlbumYOR = document.querySelector("#album_band_YOR");
 const newAlbumBand = document.querySelector("#album_band_input");
@@ -25,11 +28,11 @@ const newAlbumGenre = document.querySelector("#album_genre_input");
 const saveAlbumBtn = document.querySelector("#save_album_btn");
 
 // add album
-function addAlbum(title = "", band = "", release = 0, rating = 0, genre = "", tracks = []) {
+function addAlbum(title = "", band = "", release = 0, rating = 0, genre = "", tracks = [], stock = [0, 0, 0]) {
     if (title == "" || band == "" || release == null || release == 0, rating == null || genre == "" || tracks.length == 0) {
         alert("please make sure all values are filled");
     } else {
-        console.log(title, band, release, rating, genre, tracks)
+        console.log(title, band, release, rating, genre, tracks, stock)
         fetch(`http://127.0.0.1:1982/add-music`, {
             method: "POST",
             headers: {
@@ -42,7 +45,7 @@ function addAlbum(title = "", band = "", release = 0, rating = 0, genre = "", tr
                 "rating": rating,
                 "genre": genre,
                 "tracks": tracks,
-                "stock": 0
+                "stock": stock
             })
         })
             .then(response => response.json())
@@ -68,7 +71,7 @@ saveAlbumBtn.addEventListener('click', () => {
         console.log(i)
     }
     console.log(newAlbumTracks)
-    addAlbum(newAlbumTitle.value, newAlbumBand.value, newAlbumYOR.value, starRating, newAlbumGenre.value, newAlbumTracks)
+    addAlbum(newAlbumTitle.value, newAlbumBand.value, newAlbumYOR.value, starRating, newAlbumGenre.value, newAlbumTracks, [newAlbumVinyls.value, newAlbumCDs.value, newAlbumTapes.value])
 });
 
 
