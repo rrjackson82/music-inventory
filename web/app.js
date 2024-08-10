@@ -11,10 +11,15 @@ let star4 = document.querySelector("#star-4");
 let star5 = document.querySelector("#star-5");
 let stars = [star1, star2, star3, star4, star5];
 let starRating = 0;
+const starDefaultColor = "##808080";
 const starActiveColor = "#eddc00";
 const starInactiveColor = "#ececec"
 
 const warningColor = "#d74949";
+
+const trackContainer = document.querySelector("#track_container")
+let trackCount = 0;
+const addTrackBtn = document.querySelector("#add_track_btn")
 
 const newAlbumVinyls = document.querySelector("#vinyl_ammount");
 const newAlbumCDs = document.querySelector("#cd_ammount");
@@ -72,20 +77,20 @@ function newAlbumClear() {
     newAlbumBand.value = "";
     newAlbumYOR.value = "";
     for (i = 0; i < stars.length; i++) {
-        stars[i].style.color = starInactiveColor;
+        stars[i].style.color = starDefaultColor;
     };
     starRating = 0;
     newAlbumGenre.value = "";
-    trackContainer.innerHTML = `<button class="btn btn-outline-primary form-control mb-3" id="add_track_btn">Add
-                                        Track
-                                    </button>`
     newAlbumVinyls.value = "";
     newAlbumCDs.value = "";
     newAlbumTapes.value = "";
+    trackContainer.innerHTML = '';
+    trackCount = 0;
 }
 
 clearAlbumBtn.addEventListener('click', () => {
     newAlbumClear();
+    clearAlbumBtn.blur();
 });
 
 saveAlbumBtn.addEventListener('click', () => {
@@ -103,19 +108,17 @@ saveAlbumBtn.addEventListener('click', () => {
     } else {
         console.log("an error has occured")
     }
+    saveAlbumBtn.blur();
 });
 
 
-const trackContainer = document.querySelector("#track_container")
-let trackCount = 0;
-const addTrackBtn = document.querySelector("#add_track_btn")
 
 function createTrackInput(index) {
     const inputGroup = document.createElement('span');
-    inputGroup.className = "input-group mb-2";
+    inputGroup.className = "input-group mb-2 bg-dark";
     inputGroup.innerHTML = `
             <span class="input-group-text bg-dark text-white">${index}</span>
-            <input type="text" class="form-control" placeholder="Track Title">
+            <input type="text" class="form-control" placeholder="Title">
             <button type="button" class="btn btn-outline-secondary move-up-btn">↑</button>
             <button type="button" class="btn btn-outline-secondary move-down-btn">↓</button>
         `;
@@ -136,6 +139,7 @@ function createTrackInput(index) {
 
 
 addTrackBtn.addEventListener("click", () => {
+
     trackCount++;
     const newTrackInput = createTrackInput(trackCount);
     trackContainer.appendChild(newTrackInput);
