@@ -26,6 +26,7 @@ let newAlbumTracks = [];
 const newAlbumGenre = document.querySelector("#album_genre_input");
 
 const saveAlbumBtn = document.querySelector("#save_album_btn");
+const clearAlbumBtn = document.querySelector("#clear_album_input");
 
 // add album
 function addAlbum(title = "", band = "", release = 0, rating = 0, genre = "", tracks = [], stock = [0, 0, 0]) {
@@ -82,6 +83,10 @@ function newAlbumClear() {
     newAlbumCDs.value = "";
     newAlbumTapes.value = "";
 }
+
+clearAlbumBtn.addEventListener('click', () => {
+    newAlbumClear();
+});
 
 saveAlbumBtn.addEventListener('click', () => {
     let trackChildren = trackContainer.children;
