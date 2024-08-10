@@ -121,9 +121,3 @@ def update_music(title):
 
 view_music()
 
-<<<<<<< HEAD
-update_music(input('title '))
-=======
-
-# update_music(input('title '))
->>>>>>> add_new_cards
