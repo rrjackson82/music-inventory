@@ -116,8 +116,3 @@ def update_music(title):
                     print(f"{change_what} does not exist.")
             write_json(0, data)
     # add a tracks param
-
-
-
-view_music()
-

@@ -14,7 +14,7 @@ let starRating = 0;
 const starActiveColor = "#eddc00";
 const starInactiveColor = "#ececec"
 
-const warningColor = "#d74949"
+const warningColor = "#d74949";
 
 const newAlbumVinyls = document.querySelector("#vinyl_ammount");
 const newAlbumCDs = document.querySelector("#cd_ammount");
@@ -172,7 +172,7 @@ function updateTrackNumbers() {
         const trackFirstChild = track.children[0];
         console.log(trackFirstChild);
         if (trackFirstChild) {
-            trackFirstChild.textContent = index;
+            trackFirstChild.textContent = (index += 1);
         }
     });
 }
@@ -269,6 +269,5 @@ async function fetchData() {
 fetchData().then(data => {
     if (data) {
         allSongs = data;
-        // console.log("songs: " + songs)
     }
 });

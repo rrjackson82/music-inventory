@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify
 import json
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
-# # custom main.py
-# import main
 
 app = Flask(__name__)
 CORS(app)
@@ -69,11 +67,6 @@ def create_music():
                 'stock': data['stock'],
                 "tracks": data['tracks']
             }
-        # for song in songs:
-        #     print(str(song['title']).lower(), ":", str(data['title']).lower())
-        #     if str(song['title']).lower() == str(data['title']).lower():
-        #         connections += 1
-        #         return jsonify({"error": "songAlreadyExists"})
         return jsonify(songs[len(songs) - 1]), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
