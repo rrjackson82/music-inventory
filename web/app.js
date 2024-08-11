@@ -1,7 +1,8 @@
 let baseUrl = "http://127.0.0.1:1982";
-const placeholder = document.querySelector("#placeholder");
+
 const albumSearchText = document.querySelector("#album_search");
 let searchButton = document.querySelector("#searchButton");
+let allSongs = {};
 starList = document.querySelector("#album_star_input");
 starContainer = document.querySelector("#star-container");
 let star1 = document.querySelector("#star-1");
@@ -91,11 +92,13 @@ function newAlbumClear() {
 
 }
 
+// btn functionality
 clearAlbumBtn.addEventListener('click', () => {
     newAlbumClear();
     clearAlbumBtn.blur();
 });
 
+// btn functionality
 saveAlbumBtn.addEventListener('click', () => {
     let trackChildren = trackContainer.children;
     for (let i = 0; i < trackChildren.length; i++) {
@@ -112,7 +115,7 @@ saveAlbumBtn.addEventListener('click', () => {
 });
 
 
-
+// add track to the track list on the 'add album' card
 function createTrackInput(index) {
     const inputGroup = document.createElement('span');
     inputGroup.className = "input-group mb-2 position-relative";
@@ -177,12 +180,13 @@ function createTrackInput(index) {
     return inputGroup;
 }
 
-
+// btn functionality
 addTrackBtn.addEventListener("click", () => {
     trackCount++;
     const newTrackInput = createTrackInput(trackCount);
     trackContainer.appendChild(newTrackInput);
 });
+
 
 trackContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains('move-up-btn')) {
@@ -191,6 +195,7 @@ trackContainer.addEventListener("click", (e) => {
         moveTrackDown(e.target.closest('.input-group'));
     }
 });
+
 
 function moveTrackUp(track) {
     const prevTrack = track.previousElementSibling;
@@ -236,7 +241,7 @@ stars.forEach(star => {
     })
 })
 
-placeholder.style.color = "gray";
+// placeholder.style.color = "gray";
 
 
 function changeAlbumPlaceholder(text = "", color = "white", data = null) {
@@ -261,23 +266,17 @@ function changeAlbumPlaceholder(text = "", color = "white", data = null) {
     placeholder.style.color = color;
 }
 
-searchButton.addEventListener("click", () => {
-    searchAlbum(albumSearchText.value).then(data => {
-        console.log(data);
-        changeAlbumPlaceholder("", "white", data);
-    })
-})
 
 albumSearchText.addEventListener("keypress", function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
         searchAlbum(albumSearchText.value).then(data => {
-            changeAlbumPlaceholder("", "white", data);
+            console.log(data);
+
         })
     }
 })
 
-let allSongs = {};
 
 
 async function searchAlbum(searchParams = "") {

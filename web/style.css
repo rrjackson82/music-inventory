@@ -135,5 +135,28 @@ input:focus {
 
 .trash-can-btn:active {
     background: rgb(255, 39, 39) !important;
+}
 
+.album-search-song {
+    margin-bottom: 1%;
+}
+
+.album-search-title,
+.album-search-year {
+    padding-left: 0;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.album-search-band {
+    font-weight: 300;
+}
+
+.album-search-rating {
+    font-weight: 300;
+}
+
+.album-search-template {
+    margin-top: 0;
+    margin-left: 2%;
 }
