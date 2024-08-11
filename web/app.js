@@ -11,7 +11,7 @@ let star4 = document.querySelector("#star-4");
 let star5 = document.querySelector("#star-5");
 let stars = [star1, star2, star3, star4, star5];
 let starRating = 0;
-const starDefaultColor = "##808080";
+const starDefaultColor = "#808080";
 const starActiveColor = "#eddc00";
 const starInactiveColor = "#ececec"
 
@@ -87,6 +87,8 @@ function newAlbumClear() {
     newAlbumTapes.value = "";
     trackContainer.innerHTML = '';
     trackCount = 0;
+    console.log(starRating);
+
 }
 
 clearAlbumBtn.addEventListener('click', () => {
