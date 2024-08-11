@@ -1,6 +1,7 @@
 :root {
     --med-gray: #808080;
     --bg: #212528;
+    --color-danger: #dc3545;
 }
 
 
@@ -74,7 +75,7 @@ input:focus {
     overflow-x: hidden;
     padding: 0;
     display: block;
-    height: 115px;
+    height: 130px;
     overflow-y: scroll;
 }
 
@@ -90,7 +91,7 @@ input:focus {
 
 .container-of-track-container-sigh {
     display: block;
-    height: 130px;
+    height: 145px;
     margin-bottom: 20px;
     z-index: 1;
     border-radius: 7px;
@@ -102,4 +103,37 @@ input:focus {
 
 .glow-light {
     box-shadow: 0 0 1px 1px var(--med-gray);
+}
+
+.dragging {
+    opacity: 0.5;
+}
+
+.drag-handle {
+    font-size: 20px;
+    width: 30px;
+    text-align: center;
+    padding-left: 7px;
+    padding-right: 15px;
+}
+
+.drag-handle:hover {
+    cursor: pointer;
+}
+
+.trash-can-btn {
+    color: var(--color-danger);
+    padding-top: 8px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.trash-can-btn:hover {
+    background-color: var(--color-danger);
+    color: white;
+}
+
+.trash-can-btn:active {
+    background: rgb(255, 39, 39) !important;
+
 }

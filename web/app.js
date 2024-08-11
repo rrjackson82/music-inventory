@@ -115,23 +115,62 @@ saveAlbumBtn.addEventListener('click', () => {
 
 function createTrackInput(index) {
     const inputGroup = document.createElement('span');
-    inputGroup.className = "input-group mb-2 bg-dark";
+    inputGroup.className = "input-group mb-2 position-relative";
+    inputGroup.draggable = true;
+    // <span class="drag-handle input-group-text text-bg-dark">&#8942;&#8942;</span>
     inputGroup.innerHTML = `
-            <span class="input-group-text bg-dark text-white">${index}</span>
+            <span class="input-group-text bg-dark text-white track-index">${index}</span>
             <input type="text" class="form-control" placeholder="Title">
+            <i class="bi bi-trash btn btn-outline-secondary text-center trash-can-btn"></i>
             <button type="button" class="btn btn-outline-secondary move-up-btn">↑</button>
             <button type="button" class="btn btn-outline-secondary move-down-btn">↓</button>
         `;
-    inputGroup.querySelectorAll('button').forEach((btn) => {
-        btn.classList.add("display-inline-blk")
-        let inp = inputGroup.querySelector('input')
-    })
+
+    inputGroup.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', index);
+        e.target.classList.add('dragging');
+    });
+
+    inputGroup.querySelector('.trash-can-btn').addEventListener('click', () => {
+        
+    });
+
+    inputGroup.addEventListener('dragend', (e) => {
+        e.target.classList.remove('dragging');
+    });
+
+    inputGroup.addEventListener('dragover', (e) => {
+        e.preventDefault();
+    });
+
+    inputGroup.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const draggedIndex = e.dataTransfer.getData('text/plain');
+        const draggedElement = document.querySelector(`#track_container span[data-index="${draggedIndex}"]`);
+        const dropTarget = e.target.closest('span');
+
+        if (draggedElement && dropTarget && draggedElement !== dropTarget) {
+            const parent = dropTarget.parentNode;
+            const bounding = dropTarget.getBoundingClientRect();
+            const offset = e.clientY - bounding.top;
+
+            if (offset > bounding.height / 2) {
+                parent.insertBefore(draggedElement, dropTarget.nextSibling);
+            } else {
+                parent.insertBefore(draggedElement, dropTarget);
+            }
+            updateTrackNumbers();
+        }
+    });
+
+    inputGroup.setAttribute('data-index', index);
     addTrackBtn.blur();
     inputGroup.querySelector('input').addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
             trackCount++;
             const newTrackInput = createTrackInput(trackCount);
             trackContainer.appendChild(newTrackInput);
+            newTrackInput.querySelector('input').focus();
         }
     })
     return inputGroup;
@@ -139,7 +178,6 @@ function createTrackInput(index) {
 
 
 addTrackBtn.addEventListener("click", () => {
-
     trackCount++;
     const newTrackInput = createTrackInput(trackCount);
     trackContainer.appendChild(newTrackInput);
@@ -171,15 +209,24 @@ function moveTrackDown(track) {
     }
 }
 
+// function updateTrackNumbers() {
+//     Array.from(trackContainer.children).forEach((track, index) => {
+//         const trackSecondChild = track.children[1];
+//         if (trackSecondChild) {
+//             trackSecondChild.textContent = (index += 1);
+//         }
+//     });
+// }
+
 function updateTrackNumbers() {
     Array.from(trackContainer.children).forEach((track, index) => {
-        const trackFirstChild = track.children[0];
-        console.log(trackFirstChild);
-        if (trackFirstChild) {
-            trackFirstChild.textContent = (index += 1);
+        const indexSpan = track.querySelector('.track-index');
+        if (indexSpan) {
+            indexSpan.textContent = index + 1;
         }
     });
 }
+
 
 // handle stars
 
