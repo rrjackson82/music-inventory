@@ -51,7 +51,7 @@ function addAlbum(title = "", band = "", release = 0, rating = 0, genre = "", tr
                 "rating": rating,
                 "genre": genre,
                 "tracks": tracks,
-                "stock": { "cd": stock[0], "vinyl": stock[1], "tape": stock[2] }
+                "stock": { "vinyl": stock[0], "cd": stock[1], "tape": stock[2] }
             })
         })
             .then(response => response.json())
@@ -59,6 +59,7 @@ function addAlbum(title = "", band = "", release = 0, rating = 0, genre = "", tr
                 if (data.error === "songAlreadyExists") {
                     console.log('dup');
                     alert("An album by the same name has already been added.");
+                    return 1;
                 } else {
                     return 1;
                 }
@@ -96,17 +97,14 @@ clearAlbumBtn.addEventListener('click', () => {
 saveAlbumBtn.addEventListener('click', () => {
     let trackChildren = trackContainer.children;
     for (let i = 0; i < trackChildren.length; i++) {
-        if (i >= 1) {
-            child = trackChildren[i]
-            input = child.querySelector('input');
-            newAlbumTracks.push(input.value);
-        }
+        child = trackChildren[i]
+        input = child.querySelector('input');
+        newAlbumTracks.push(input.value);
     }
+    console.log(trackChildren);
     addFunc = addAlbum(newAlbumTitle.value, newAlbumBand.value, newAlbumYOR.value, starRating, newAlbumGenre.value, newAlbumTracks, [newAlbumVinyls.value, newAlbumCDs.value, newAlbumTapes.value]);
-    if (addFunc === 0) {
+    if (addFunc === 1) {
         newAlbumClear();
-    } else {
-        console.log("an error has occured")
     }
     saveAlbumBtn.blur();
 });
@@ -131,8 +129,9 @@ function createTrackInput(index) {
         e.target.classList.add('dragging');
     });
 
-    inputGroup.querySelector('.trash-can-btn').addEventListener('click', () => {
-        
+    inputGroup.querySelector('.trash-can-btn').addEventListener('click', (e) => {
+        e.target.parentNode.remove();
+        updateTrackNumbers();
     });
 
     inputGroup.addEventListener('dragend', (e) => {
@@ -208,15 +207,6 @@ function moveTrackDown(track) {
         updateTrackNumbers();
     }
 }
-
-// function updateTrackNumbers() {
-//     Array.from(trackContainer.children).forEach((track, index) => {
-//         const trackSecondChild = track.children[1];
-//         if (trackSecondChild) {
-//             trackSecondChild.textContent = (index += 1);
-//         }
-//     });
-// }
 
 function updateTrackNumbers() {
     Array.from(trackContainer.children).forEach((track, index) => {
